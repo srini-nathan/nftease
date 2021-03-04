@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "src/scripts/test.sh"
+    "test": "sh src/scripts/test.sh"
   },
   "author": "",
   "license": "ISC",
