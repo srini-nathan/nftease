@@ -50,4 +50,4 @@ else
   start_ganache
 fi
 
-npx truffle test
+npx hardhat test

@@ -1,0 +1,10 @@
+{
+  "_format": "hh-sol-artifact-1",
+  "contractName": "ContextMixin",
+  "sourceName": "contracts/commons/ContextMixin.sol",
+  "abi": [],
+  "bytecode": "0x6080604052348015600f57600080fd5b50603f80601d6000396000f3fe6080604052600080fdfea2646970667358221220269adbdea35ea067065f7e2c3f7f359b788a6ad6ab852e951a1e00342179fe5264736f6c63430007040033",
+  "deployedBytecode": "0x6080604052600080fdfea2646970667358221220269adbdea35ea067065f7e2c3f7f359b788a6ad6ab852e951a1e00342179fe5264736f6c63430007040033",
+  "linkReferences": {},
+  "deployedLinkReferences": {}
+}

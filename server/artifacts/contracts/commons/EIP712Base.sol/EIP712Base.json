@@ -1,0 +1,37 @@
+{
+  "_format": "hh-sol-artifact-1",
+  "contractName": "EIP712Base",
+  "sourceName": "contracts/commons/EIP712Base.sol",
+  "abi": [
+    {
+      "inputs": [],
+      "name": "domainSeparator",
+      "outputs": [
+        {
+          "internalType": "bytes32",
+          "name": "",
+          "type": "bytes32"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getChainId",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ],
+  "bytecode": "0x6080604052348015600f57600080fd5b5060958061001e6000396000f3fe6080604052348015600f57600080fd5b506004361060325760003560e01c80633408e470146037578063f698da2514604f575b600080fd5b603d6055565b60408051918252519081900360200190f35b603d6059565b4690565b6000548156fea26469706673582212202728c70968b1c66e8fbc4a2ed38f4b79f07bceefbb03d8b6b20f5597624c9d9364736f6c63430007040033",
+  "deployedBytecode": "0x6080604052348015600f57600080fd5b506004361060325760003560e01c80633408e470146037578063f698da2514604f575b600080fd5b603d6055565b60408051918252519081900360200190f35b603d6059565b4690565b6000548156fea26469706673582212202728c70968b1c66e8fbc4a2ed38f4b79f07bceefbb03d8b6b20f5597624c9d9364736f6c63430007040033",
+  "linkReferences": {},
+  "deployedLinkReferences": {}
+}
