@@ -7,7 +7,6 @@ import {
   UsePipes,
   ValidationPipe,
 } from "@nestjs/common";
-import { Types } from "mongoose";
 
 import { CreateUserDto } from "./dto";
 import { User } from "./users.interface";
@@ -20,10 +19,12 @@ export class UsersController {
 
   @Post()
   async createUser(@Body() userDto: CreateUserDto): Promise<User> {
-    if (!userDto._id) {
-      userDto._id = Types.ObjectId();
-    }
     return this.usersService.createUser(userDto);
+  }
+
+  @Get()
+  async finalAll() {
+    return this.usersService.findAll();
   }
 
   @Get(":id")

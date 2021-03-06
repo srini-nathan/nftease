@@ -8,7 +8,6 @@ build:
       context: client
       docker:
         dockerfile: Dockerfile.dev
-        noCache: true
       sync:
         # Whenever these types of files are updated, inject into the pod (Mode 2)
         # If any other files are changed, will fall back to Mode 1
@@ -23,9 +22,23 @@ build:
             dest: .
           - src: "**/*.html"
             dest: .
+    - image: nftease/server
+      context: server
+      docker:
+        dockerfile: Dockerfile.dev
+      # Must be using nodemon
+      sync:
+        manual:
+          - src: "**/*.js"
+            dest: .
+          - src: "**/*.ts"
+            dest: .
 # Automatically apply config files, remove them when stopped
 deploy:
   kubectl:
     manifests:
       - k8s-dev/client-deployment.yaml
       - k8s-dev/client-cluster-ip-service.yaml
+      - k8s-dev/server-deployment.yaml
+      - k8s-dev/server-cluster-ip-service.yaml
+      - k8s-dev/mongo-deployment.yaml

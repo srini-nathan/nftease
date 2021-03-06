@@ -4,7 +4,7 @@ const env: { [k: string]: ConfigEnv } = {
   development: {
     name: "users-service",
     prefix: "api",
-    port: 3000,
+    port: 8000,
     mongo: {
       database: "users",
     },

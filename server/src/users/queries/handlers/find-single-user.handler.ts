@@ -8,7 +8,7 @@ import { FindSingleUserQuery } from "../impl/find-single-user.query";
 @QueryHandler(FindSingleUserQuery)
 export class FindSingleUserHandler
   implements IQueryHandler<FindSingleUserQuery> {
-  constructor(private readonly orderRepository: UsersRepository) {}
+  constructor(private readonly userRepository: UsersRepository) {}
 
   async execute(query: FindSingleUserQuery) {
     Logger.log(
@@ -16,6 +16,6 @@ export class FindSingleUserHandler
     );
 
     const { id } = query;
-    return this.orderRepository.findOne(new Types.ObjectId(id));
+    return this.userRepository.findOne(new Types.ObjectId(id));
   }
 }
