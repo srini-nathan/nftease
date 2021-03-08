@@ -12,6 +12,7 @@ import { UsersService } from "./users.service";
 import { QueryHandlers } from "./queries/handlers";
 import { UserCreatedEvent } from "./events/impl/user-created.event";
 import { UserFoundEvent } from "./events/impl/user-found.event";
+import { UserFoundAllEvent } from "./events/impl/user-found-all.event";
 import { CreateUserDto } from "./dto";
 
 @Module({
@@ -33,6 +34,7 @@ export class UsersModule implements OnModuleInit {
   public eventHandlers = {
     UserCreatedEvent: (data: CreateUserDto) => new UserCreatedEvent(data),
     UserFoundEvent: (data?: string) => new UserFoundEvent(data),
+    UserFoundAllEvent: () => new UserFoundAllEvent(),
   };
 
   constructor(

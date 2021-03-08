@@ -32,7 +32,7 @@ export class EventStoreService implements IEventPublisher, IMessageSource {
 
   async publish<T extends IEvent>(event: T) {
     const message = JSON.parse(JSON.stringify(event));
-    const orderId = message.id || message.orderDto._id;
+    const orderId = message.id || message.userDto._id;
     const streamName = `${this.category}-${orderId}`;
     const type = event.constructor.name;
     try {

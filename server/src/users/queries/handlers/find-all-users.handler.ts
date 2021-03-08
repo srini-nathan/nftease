@@ -5,7 +5,7 @@ import { UsersRepository } from "../../users.repository";
 import { FindAllUsersQuery } from "../impl/find-all-users.query";
 
 @QueryHandler(FindAllUsersQuery)
-export class FindSingleUserHandler implements IQueryHandler<FindAllUsersQuery> {
+export class FindAllUsersHandler implements IQueryHandler<FindAllUsersQuery> {
   constructor(private readonly userRepository: UsersRepository) {}
 
   async execute() {

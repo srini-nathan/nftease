@@ -96,8 +96,7 @@ export class ConfigService {
       const user = process.env.MONGO_USER || env.mongo.user;
       const password = process.env.MONGO_PASSWORD || env.mongo.password;
       const credentials = user && password ? `${user}:${password}@` : "";
-      const host =
-        process.env.MONGO_HOST || env.mongo.host || "mongo-cluster-ip-service";
+      const host = process.env.MONGO_HOST || env.mongo.host || "localhost";
       const port = process.env.MONGO_PORT || env.mongo.port || "27017";
       const database = process.env.MONGO_DB || env.mongo.database || "";
       mongo.uri =

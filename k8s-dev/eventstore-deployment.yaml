@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: eventstore-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: eventstore
+  template:
+    metadata:
+      labels:
+        app: eventstore
+    spec:
+      containers:
+        - name: eventstore
+          image: eventstore/eventstore
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: eventstore-cluster-ip-service
+spec:
+  type: ClusterIP
+  selector:
+    app: eventstore
+  ports:
+    - port: 2113
+      targetPort: 2113
+    - port: 1113
+      targetPort: 1113

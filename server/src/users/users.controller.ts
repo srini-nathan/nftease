@@ -23,7 +23,7 @@ export class UsersController {
   }
 
   @Get()
-  async finalAll() {
+  async findAll() {
     return this.usersService.findAll();
   }
 

@@ -46,4 +46,8 @@ export class UsersRepository {
     userRoot.setData(id.toHexString());
     return userRoot;
   }
+
+  async deleteAll() {
+    this.model.deleteMany({});
+  }
 }

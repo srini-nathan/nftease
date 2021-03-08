@@ -20,5 +20,7 @@ export class CreateUserHandler implements ICommandHandler<CreateUserCommand> {
     );
     user.createdUser();
     user.commit();
+
+    return user;
   }
 }
