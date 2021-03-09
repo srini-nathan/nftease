@@ -6,7 +6,6 @@ COPY package*.json ./
 RUN npm install -qy
 
 COPY . .
-RUN npm run prebuild
 RUN npm run build
 
 EXPOSE 8080
