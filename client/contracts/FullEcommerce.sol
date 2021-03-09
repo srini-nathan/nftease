@@ -2,32 +2,32 @@ pragma solidity ^0.5.0;
 
 import './ERC721.sol';
 
-/// @notice The Ecommerce Token that implements the ERC721 token with mint function
-/// @author Merunas Grincalaitis <merunasgrincalaitis@gmail.com>
-contract EcommerceToken is ERC721 {
-    address public ecommerce;
-    bool public isEcommerceSet = false;
+/// @notice The NFTease Token that implements the ERC721 token with mint function
+/// @author tyler p <typalacsko@Outlook.com>.
+contract NFTeaseToken is ERC721 {
+    address public token;
+    bool public isTokenSet = false;
+
     /// @notice To generate a new token for the specified address
     /// @param _to The receiver of this new token
     /// @param _tokenId The new token id, must be unique
     function mint(address _to, uint256 _tokenId) public {
-        require(msg.sender == ecommerce, 'Only the ecommerce contract can mint new tokens');
+        require(msg.sender == token, 'Only the NFTeaseToken contract can mint new tokens');
         _mint(_to, _tokenId);
     }
 
-    /// @notice To set the ecommerce smart contract address
-    function setEcommerce(address _ecommerce) public {
-        require(!isEcommerceSet, 'The ecommerce address can only be set once');
-        require(_ecommerce != address(0), 'The ecommerce address cannot be empty');
-        isEcommerceSet = true;
-        ecommerce = _ecommerce;
+    /// @notice To set the NFTease smart contract address
+    function setNFTease(address _token) public {
+        require(!isTokenSet, 'The NFTeaseToken address can only be set once');
+        require(_token != address(0), 'The NFTeaseToken address cannot be empty');
+        isTokenSet = true;
+        token = _token;
     }
 }
 
-/// @notice The main ecommerce contract to buy and sell ERC-721 tokens representing physical or digital products because we are dealing with non-fungible tokens, there will be only 1 stock per product
-/// @author Merunas Grincalaitis <merunasgrincalaitis@gmail.com>
-contract Ecommerce {
-    // We need the following:
+/// @notice The main NFTease contract to buy and sell ERC-721 tokens representing our users uploaded content
+/// @author tyler p <typalacsko@Outlook.com>.
+contract NFTease {
     /*
         - A function to publish, sell products with unique token ids
         - A function to buy products
@@ -46,14 +46,7 @@ contract Ecommerce {
     }
     struct Order {
         uint256 id;
-        string nameSurname;
-        string lineOneDirection;
-        string lineTwoDirection;
-        bytes32 city;
-        bytes32 stateRegion;
-        uint256 postalCode;
-        bytes32 country;
-        uint256 phone;
+        string nameUsername;
         string state; // Either 'pending', 'completed'
     }
     // Seller address => products
@@ -93,7 +86,7 @@ contract Ecommerce {
     function publishProduct(string memory _title, string memory _description, uint256 _price, string memory _image) public {
         require(bytes(_title).length > 0, 'The title cannot be empty');
         require(bytes(_description).length > 0, 'The description cannot be empty');
-        require(_price > 0, 'The price cannot be empty');
+        require(_price > 0, 'The price cannot be empty (denoted in ETH)');
         require(bytes(_image).length > 0, 'The image cannot be empty');
 
         Product memory p = Product(lastId, _title, _description, now, msg.sender, _price * 1e18 , _image);
@@ -101,35 +94,23 @@ contract Ecommerce {
         sellerProducts[msg.sender].push(p);
         productById[lastId] = p;
         productExists[lastId] = true;
-        EcommerceToken(token).mint(address(this), lastId); // Create a new token for this product which will be owned by this contract until sold
+        NFTeaseToken(token).mint(address(this), lastId); // Create a new token for this product which will be owned by this contract until sold
         lastId++;
     }
 
     /// @notice To buy a new product, note that the seller must authorize this contract to manage the token
     /// @param _id The id of the product to buy
-    /// @param _nameSurname The name and surname of the buyer
-    /// @param _lineOneDirection The first line for the user address
-    /// @param _lineTwoDirection The second, optional user address line
-    /// @param _city Buyer's city
-    /// @param _stateRegion The state or region where the buyer lives
-    /// @param _postalCode The postal code of his location
-    /// @param _country Buyer's country
-    /// @param _phone The optional phone number for the shipping company
-    function buyProduct(uint256 _id, string memory _nameSurname, string memory _lineOneDirection, string memory _lineTwoDirection, bytes32 _city, bytes32 _stateRegion, uint256 _postalCode, bytes32 _country, uint256 _phone) public payable {
-        // The line 2 address and phone are optional, the rest are mandatory
+    /// @param _nameUsername an optional value for the user to display their name publically (purchaser)
+
+    function buyProduct(uint256 _id, string memory _nameUsername) public payable {
         require(productExists[_id], 'The product must exist to be purchased');
-        require(bytes(_nameSurname).length > 0, 'The name and surname must be set');
-        require(bytes(_lineOneDirection).length > 0, 'The line one direction must be set');
-        require(_city.length > 0, 'The city must be set');
-        require(_stateRegion.length > 0, 'The state or region must be set');
-        require(_postalCode > 0, 'The postal code must be set');
-        require(_country > 0, 'The country must be set');
 
         Product memory p = productById[_id];
-        Order memory newOrder = Order(_id, _nameSurname, _lineOneDirection, _lineTwoDirection, _city, _stateRegion, _postalCode, _country, _phone, 'pending');
+        Order memory newOrder = Order(_id, _nameUsername, 'pending');
         require(msg.value >= p.price, "The payment must be larger or equal than the products price");
 
         // Return the excess ETH sent by the buyer
+        // TODO: take transaction fee 
         if(msg.value > p.price) msg.sender.transfer(msg.value - p.price);
         pendingSellerOrders[p.owner].push(newOrder);
         pendingBuyerOrders[msg.sender].push(newOrder);
@@ -137,7 +118,7 @@ contract Ecommerce {
         orderById[_id] = newOrder;
         lastPendingSellerOrder = pendingSellerOrders[p.owner].length > 0 ? pendingSellerOrders[p.owner].length - 1 : 0;
         lastPendingBuyerOrder = pendingBuyerOrders[p.owner].length > 0 ? pendingBuyerOrders[p.owner].length - 1 : 0;
-        EcommerceToken(token).transferFrom(p.owner, msg.sender, _id); // Transfer the product token to the new owner
+        NFTeaseToken(token).transferFrom(p.owner, msg.sender, _id); // Transfer the product token to the new owner
         p.owner.transfer(p.price);
     }
 
@@ -258,7 +239,7 @@ contract Ecommerce {
     /// @param _owner The address from which get the order data
     /// @param _id The order id
     /// @return Returns all the parameters for that specific order
-    function getOrder(string memory _type, address _owner, uint256 _id) public view returns(uint256 id, string memory nameSurname, string memory lineOneDirection, string memory lineTwoDirection, bytes32 city, bytes32 stateRegion, uint256 postalCode, bytes32 country, uint256 phone, string memory state) {
+    function getOrder(string memory _type, address _owner, uint256 _id) public view returns(uint256 id, string memory nameUsername, string memory state) {
         Order memory o;
         if(compareStrings(_type, 'pending-seller')) {
             o = pendingSellerOrders[_owner][_id];
@@ -271,14 +252,7 @@ contract Ecommerce {
         }
 
         id = o.id;
-        nameSurname = o.nameSurname;
-        lineOneDirection = o.lineOneDirection;
-        lineTwoDirection = o.lineTwoDirection;
-        city = o.city;
-        stateRegion = o.stateRegion;
-        postalCode = o.postalCode;
-        country = o.country;
-        phone = o.phone;
+        nameUsername = o.nameUsername;
         state = o.state;
     }
 
