@@ -7,6 +7,7 @@ import { UserDocument, UserModel } from "..";
 import UserSchema from "../schema";
 import build from "./build";
 import get from "./get";
+import interact from "./interact";
 import verify from "./verify";
 
 @ObjectType()
@@ -47,5 +48,11 @@ export default class UserClass extends UserSchema {
 
   public async verify(this: UserDocument) {
     return verify.verify(this);
+  }
+
+  // INTERACT //
+
+  public async generateJWT(this: UserDocument, signature: string) {
+    return interact.generateJWT(this, signature);
   }
 }

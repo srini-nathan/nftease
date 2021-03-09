@@ -18,4 +18,12 @@ export default class UserSchema {
   @Field({ nullable: true })
   @prop({ trim: true })
   public bio?: string;
+
+  @Field(() => [String])
+  @prop({ type: [String], required: true, default: [], enum: ["WEBADMIN"] })
+  public roles!: ["WEBADMIN"];
+
+  @Field({ nullable: false })
+  @prop({ required: true, default: Types.ObjectId().toString() })
+  public nonce!: String;
 }
