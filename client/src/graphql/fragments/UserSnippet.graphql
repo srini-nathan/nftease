@@ -1,0 +1,6 @@
+fragment UserSnippet on UserClass {
+  _id
+  username
+  walletAddress
+  bio
+}

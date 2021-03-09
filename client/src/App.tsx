@@ -5,7 +5,7 @@ import Providers from "./components/Providers";
 
 const App = () => {
   return (
-    <Providers>
+  	<Providers>
       <Router />
     </Providers>
   );
