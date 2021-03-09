@@ -48,6 +48,6 @@ export class UsersRepository {
   }
 
   async deleteAll() {
-    this.model.deleteMany({});
+    await this.model.deleteMany({});
   }
 }

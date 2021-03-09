@@ -17,7 +17,7 @@ describe("UsersController", () => {
 
   beforeAll(async () => {
     const moduleRef = await Test.createTestingModule({
-      imports: [AppModule, rootMongooseTestModule()],
+      imports: [rootMongooseTestModule(), AppModule],
     }).compile();
 
     app = moduleRef.createNestApplication();
@@ -67,6 +67,10 @@ describe("UsersController", () => {
     });
 
     describe("GET /", () => {
+      beforeAll(async () => {
+        documents = await seedDatabase(app);
+      });
+
       test("should get all users", async () => {
         const res = await request(app.getHttpServer()).get("/users");
 
