@@ -37,8 +37,9 @@ contract Ecommerce {
         uint256 price;
         string image;
     }
-    struct Order {
+   struct Order {
         uint256 id;
+        address buyer;
         string nameUsername;
         string state; // Either 'pending', 'completed'
     }
@@ -84,8 +85,8 @@ contract Ecommerce {
     /// @param _id The id of the product to buy
     /// @param _nameUsername an optional value for the user to display their name publically (purchaser)
     function buyProduct(uint256 _id, string memory _nameUsername) public payable {
-        // The line 2 address and phone are optional, the rest are mandatory    
         Product memory p = productById[_id];
+
         require(bytes(p.title).length > 0, 'The product must exist to be purchased');
         Order memory newOrder = Order(_id, msg.sender, _nameUsername, 'pending');
         require(msg.value >= p.price, "The payment must be larger or equal than the products price");
