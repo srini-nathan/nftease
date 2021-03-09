@@ -1,5 +1,5 @@
-const Token = artifacts.require("./EcommerceToken.sol")
-const Ecommerce = artifacts.require("./Ecommerce.sol")
+const Token = artifacts.require("./NFTeaseToken.sol")
+const NFTease = artifacts.require("./NFTease.sol")
 let token
 
 // module.exports = function(deployer) {
@@ -10,12 +10,12 @@ module.exports = function(deployer, network, accounts) {
         Token
     ).then(tokenInstance => {
         token = tokenInstance
-        return deployer.deploy(Ecommerce, token.address)
-    }).then(async ecommerce => {
-        await token.contract.methods.setEcommerce(ecommerce.address).send({
+        return deployer.deploy(NFTease, token.address)
+    }).then(async nftease => {
+        await token.contract.methods.setNFTease(nftease.address).send({
             from: accounts[0]
         })
-        console.log('Is set?', await token.contract.methods.isEcommerceSet().call())
+        console.log('Is set?', await token.contract.methods.isTokenSet().call())
         console.log('Deployed both!')
     })
 }
