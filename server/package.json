@@ -29,6 +29,7 @@
     "ganache-cli": "6.12.2",
     "hardhat": "2.1.0",
     "jsonwebtoken": "8.5.1",
+    "jwt-decode": "3.1.2",
     "mongoose": "5.10.18",
     "nact": "^7.6.0",
     "nact-persistence-postgres": "^8.0.1",

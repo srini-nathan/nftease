@@ -25,5 +25,5 @@ export default class UserSchema {
 
   @Field({ nullable: false })
   @prop({ required: true, default: () => Types.ObjectId().toString() })
-  public nonce!: String;
+  public nonce!: string;
 }

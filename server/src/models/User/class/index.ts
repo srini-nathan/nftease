@@ -57,9 +57,13 @@ export default class UserClass extends UserSchema {
     return interact.generateJWT(this, signature);
   }
 
-  // CHANGE //
+  // UPDATE //
 
   public async updateNonce(this: UserDocument) {
     return update.nonce(this);
+  }
+
+  public async updateBio(this: UserDocument, bio: string) {
+    return update.bio(this, bio);
   }
 }

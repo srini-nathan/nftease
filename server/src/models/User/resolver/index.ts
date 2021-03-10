@@ -2,6 +2,7 @@ import {
   Arg,
   Args,
   ArgsType,
+  Authorized,
   Field,
   ID,
   InputType,
@@ -48,6 +49,15 @@ class NewUserData implements Partial<UserSchema> {
   bio?: string;
 }
 
+@InputType({ description: "Data required to update user bio" })
+class UserBioData {
+  @Field()
+  id!: string;
+
+  @Field()
+  bio!: string;
+}
+
 @Resolver(() => UserClass)
 export default class UserResolver {
   /**
@@ -72,5 +82,13 @@ export default class UserResolver {
   @Mutation(() => String)
   async login(@Arg("data") loginData: LoginData): Promise<String> {
     return mutations.login(loginData);
+  }
+
+  @Mutation(() => UserClass)
+  @Authorized()
+  async userBio(
+    @Arg("data") updateBioData: UserBioData
+  ): Promise<UserDocument> {
+    return mutations.bio(updateBioData);
   }
 }

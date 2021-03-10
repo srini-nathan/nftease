@@ -11,13 +11,13 @@ const createUsers = () => {
       const user_1 = new User({
         username: "user1",
         bio: "Hi! I am the first user",
-        walletAddress: "<wallet-address>",
+        walletAddress: "0x89eDc6677Ba87a976BAB5fe9Ad46ac984a6DB749",
       });
 
       const user_2_webadmin = new User({
         username: "user2webadmin",
         bio: "I'm a webadmin, fear me",
-        walletAddress: "<wallet-address-2>",
+        walletAddress: "0xbCda41FD79DAD8687171ee4BD0856B759B0bAcdb",
         roles: ["WEBADMIN"],
       });
 

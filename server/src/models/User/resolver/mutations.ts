@@ -28,4 +28,14 @@ const login = async ({
   return await user.generateJWT(signature);
 };
 
-export default { newUser, login };
+const bio = async ({ id, bio }: { id: string; bio: string }) => {
+  const user = await User.getById(id);
+  if (!user) throw new Error("Unable to find a user with that Id");
+
+  await user.updateBio(bio);
+  await user.save();
+
+  return user;
+};
+
+export default { newUser, login, bio };
