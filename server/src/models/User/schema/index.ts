@@ -24,6 +24,6 @@ export default class UserSchema {
   public roles!: ["WEBADMIN"];
 
   @Field({ nullable: false })
-  @prop({ required: true, default: Types.ObjectId().toString() })
+  @prop({ required: true, default: () => Types.ObjectId().toString() })
   public nonce!: String;
 }

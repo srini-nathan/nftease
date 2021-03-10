@@ -25,10 +25,7 @@ const login = async ({
   if (!user) {
     throw new Error("Unable to find a user with that address");
   }
-
-  const msg = `typ gay ${user.nonce}`;
-
-  return "";
+  return await user.generateJWT(signature);
 };
 
 export default { newUser, login };
