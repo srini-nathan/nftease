@@ -1,12 +1,33 @@
 import express from "express";
 import * as bodyParser from "body-parser";
 import cors from "cors";
+import { ApolloServer } from "apollo-server-express";
+import { buildSchema } from "type-graphql";
 
-const app = express();
+import UserResolver from "@models/User/resolver";
 
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+const createApp = async () => {
+  const app = express();
 
-app.use(cors());
+  app.use(cors());
 
-export default app;
+  const apolloServer = new ApolloServer({
+    schema: await buildSchema({
+      resolvers: [UserResolver],
+      validate: false,
+    }),
+    context: ({ req, res }: { req: any; res: any }) => ({
+      req,
+      res,
+    }),
+  });
+
+  apolloServer.applyMiddleware({
+    app,
+    cors: false,
+  });
+
+  return app;
+};
+
+export default createApp;

@@ -9,9 +9,10 @@ import {
   Query,
   Resolver,
 } from "type-graphql";
-import User, { UserDocument } from "..";
+import { UserDocument } from "..";
 import UserClass from "../class";
 import UserSchema from "../schema";
+import mutations from "./mutations";
 import queries from "./queries";
 
 @ArgsType()
@@ -26,8 +27,17 @@ class GetUserArgs {
   walletAddress?: string;
 }
 
+@InputType({ description: "Login data" })
+class LoginData {
+  @Field()
+  walletAddress!: string;
+
+  @Field()
+  signature!: string;
+}
+
 @InputType({ description: "New user data" })
-export class NewUserData implements Partial<UserSchema> {
+class NewUserData implements Partial<UserSchema> {
   @Field()
   username!: string;
 
@@ -56,6 +66,11 @@ export default class UserResolver {
 
   @Mutation(() => UserClass)
   async newUser(@Arg("data") newUserData: NewUserData): Promise<UserDocument> {
-    return await User.build(newUserData);
+    return mutations.newUser(newUserData);
+  }
+
+  @Mutation(() => String)
+  async login(@Arg("data") loginData: LoginData): Promise<String> {
+    return mutations.login(loginData);
   }
 }

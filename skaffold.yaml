@@ -37,8 +37,4 @@ build:
 deploy:
   kubectl:
     manifests:
-      - k8s-dev/client-deployment.yaml
-      - k8s-dev/client-cluster-ip-service.yaml
-      - k8s-dev/server-deployment.yaml
-      - k8s-dev/server-cluster-ip-service.yaml
-      - k8s-dev/mongo-deployment.yaml
+      - k8s-dev/*
