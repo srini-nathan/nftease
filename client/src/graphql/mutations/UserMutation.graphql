@@ -1,0 +1,7 @@
+mutation NewUser($data: NewUserData!) {
+  newUser(data: $data) {
+    username
+    walletAddress
+    bio
+  }
+}

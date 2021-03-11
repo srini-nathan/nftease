@@ -1,7 +1,7 @@
 import React from "react";
 
 import Router from "./components/Router";
-import Providers from "./components/Providers";
+import Providers from "./components/Providers/Index";
 
 const App = () => {
   return (

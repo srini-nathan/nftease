@@ -69,6 +69,29 @@ export type UserSnippetFragment = (
   & Pick<UserClass, '_id' | 'username' | 'walletAddress' | 'bio'>
 );
 
+export type LoginMutationVariables = Exact<{
+  data: LoginData;
+}>;
+
+
+export type LoginMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'login'>
+);
+
+export type NewUserMutationVariables = Exact<{
+  data: NewUserData;
+}>;
+
+
+export type NewUserMutation = (
+  { __typename?: 'Mutation' }
+  & { newUser: (
+    { __typename?: 'UserClass' }
+    & Pick<UserClass, 'username' | 'walletAddress' | 'bio'>
+  ) }
+);
+
 export type UserQueryVariables = Exact<{
   id?: Maybe<Scalars['ID']>;
   username?: Maybe<Scalars['String']>;
@@ -92,6 +115,70 @@ export const UserSnippetFragmentDoc = gql`
   bio
 }
     `;
+export const LoginDocument = gql`
+    mutation Login($data: LoginData!) {
+  login(data: $data)
+}
+    `;
+export type LoginMutationFn = Apollo.MutationFunction<LoginMutation, LoginMutationVariables>;
+
+/**
+ * __useLoginMutation__
+ *
+ * To run a mutation, you first call `useLoginMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useLoginMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [loginMutation, { data, loading, error }] = useLoginMutation({
+ *   variables: {
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useLoginMutation(baseOptions?: Apollo.MutationHookOptions<LoginMutation, LoginMutationVariables>) {
+        return Apollo.useMutation<LoginMutation, LoginMutationVariables>(LoginDocument, baseOptions);
+      }
+export type LoginMutationHookResult = ReturnType<typeof useLoginMutation>;
+export type LoginMutationResult = Apollo.MutationResult<LoginMutation>;
+export type LoginMutationOptions = Apollo.BaseMutationOptions<LoginMutation, LoginMutationVariables>;
+export const NewUserDocument = gql`
+    mutation NewUser($data: NewUserData!) {
+  newUser(data: $data) {
+    username
+    walletAddress
+    bio
+  }
+}
+    `;
+export type NewUserMutationFn = Apollo.MutationFunction<NewUserMutation, NewUserMutationVariables>;
+
+/**
+ * __useNewUserMutation__
+ *
+ * To run a mutation, you first call `useNewUserMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useNewUserMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [newUserMutation, { data, loading, error }] = useNewUserMutation({
+ *   variables: {
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useNewUserMutation(baseOptions?: Apollo.MutationHookOptions<NewUserMutation, NewUserMutationVariables>) {
+        return Apollo.useMutation<NewUserMutation, NewUserMutationVariables>(NewUserDocument, baseOptions);
+      }
+export type NewUserMutationHookResult = ReturnType<typeof useNewUserMutation>;
+export type NewUserMutationResult = Apollo.MutationResult<NewUserMutation>;
+export type NewUserMutationOptions = Apollo.BaseMutationOptions<NewUserMutation, NewUserMutationVariables>;
 export const UserDocument = gql`
     query User($id: ID, $username: String, $walletAddress: String) {
   user(id: $id, username: $username, walletAddress: $walletAddress) {
