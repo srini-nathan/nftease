@@ -112,33 +112,6 @@ export function Login() {
     }
     setState({ ...state, walletAddress: checkSum });
     getUser({ variables: { walletAddress: checkSum } });
-
-    // console.log(data?.user?.username)
-    // console.log(state.walletAddress)
-    // const [data, loading]
-    //    fetch(
-    //      'http://localhost:8080/graphql' + checkSum
-    //    ).then(function(response) {
-    //    		console.log(response)
-    // 	    if (response.status == 404) {
-    // 	        handleSignup(checkSum)
-    //            setState({walletAddress: checkSum, loading: false});
-    // 	    }
-    // 	    return response.json();
-    // 	})
-    //  	.then(body => {
-    //  		handleSignMessage(checkSum, body.data.nonce)
-    //  		return body.data.nonce;
-    //  	})
-    //    	// .then(handleSignMessage)
-    // .catch(e => {
-    //        if(e == "TypeError: Failed to fetch"){
-    //          window.alert("Sorry but we're having troubles connecting to our services right now. Please try again later. Check our social media for updates on this issue @NFTeaseApp.")
-    //          setState({...state, loading: false});
-    //        	}
-    // 	})
-
-    // setState({walletAddress: checkSum, loading: true});
   };
 
   async function handleSignMessage(nonce: String) {
@@ -171,24 +144,8 @@ export function Login() {
     }).then((response) => response.json());
   }
 
-  // <div className="content-center">
-  //         <Container>
-  //         <h1>Login</h1>
-  //         <h2 className="presentation-subtitle text-center">
-  //               New? need help? how about an account? anyhting? hello?
-  //         </h2>
-  //            <div className="content-center">
-  //           <Button color="primary" size="lg" onClick={() => handleClick()}>
-  //             {state.loading ? 'Loading...' : 'Login with MetaMask'}
-  //           </Button>
-  //                 </div>
-
-  //         </Container>
-  //       </div>
-
   return (
     <>
-      <h1>{state.waitLoad}</h1>
       <div className="page-header-2" data-parallax={true}>
         <Particle />
 

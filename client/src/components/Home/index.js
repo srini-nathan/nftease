@@ -4,10 +4,11 @@ import Web3 from "web3";
 import { BrowserRouter, Route, withRouter } from "react-router-dom";
 import ABI from "../../build/contracts/Ecommerce.json";
 // import CreateProduct from './components/Sell'
-import LandingPageHeader from "./LandingPageHeader.js";
+import PageHeader from "./PageHeader";
+import FeatureCards from "../FeaturedCards";
 import "../../assets/css/bootstrap.min.css";
 import "../../assets/css/paper-kit.css";
-
+import Background from "../../assets/img/path1.png";
 import {
   Button,
   Card,
@@ -27,6 +28,7 @@ import {
 export default class Home extends Component {
   constructor(props) {
     super(props);
+    console.log(Background);
 
     this.state = {
       networkId: null,
@@ -41,24 +43,24 @@ export default class Home extends Component {
   }
 
   async componentWillMount() {
-    await this.setup();
+    // await this.setup();
     await this.loadBlockchain();
   }
 
-  async setup() {
-    // Create the contract instance
-    if (window.ethereum) {
-      window.web3 = new Web3(window.ethereum);
-      await window.ethereum.enable();
-    } else if (window.web3) {
-      window.web3 = new Web3(window.web3.currentProvider);
-    } else {
-      // TODO : Dynamic error - render from local server instead of blockchain
-      window.alert(
-        "Non-Ethereum browser detected. You should consider trying MetaMask!"
-      );
-    }
-  }
+  // async setup() {
+  //   // Create the contract instance
+  //   if (window.ethereum) {
+  //     window.web3 = new Web3(window.ethereum);
+  //     await window.ethereum.enable();
+  //   } else if (window.web3) {
+  //     window.web3 = new Web3(window.web3.currentProvider);
+  //   } else {
+  //     // TODO : Dynamic error - render from local server instead of blockchain
+  //     window.alert(
+  //       "Non-Ethereum browser detected. You should consider trying MetaMask!"
+  //     );
+  //   }
+  // }
 
   async loadBlockchain() {
     const web3 = new Web3(Web3.givenProvider || "http://localhost:7545");
@@ -121,7 +123,7 @@ export default class Home extends Component {
     }
     this.setState({ productsHtml });
   }
-
+  // {this.state.productsHtml}
   // redirectTo(location) {
   // 	this.props.history.push({
   // 		pathname: location
@@ -154,18 +156,25 @@ export default class Home extends Component {
       };
       products.push(product);
     }
+
     this.setState({ products });
   }
-
+  // <LandingPageHeader web3={this.state.web3} />
+  /* <Container>
+            <div className="aboveBg">
+              <h1>Hello, World!</h1>
+              <p>Your account: {this.state.user}</p>
+              <p>Test: {this.state.productsHtml}</p>
+              <p>Create product</p>
+            </div>
+          </Container> */
   render() {
     return (
       <>
-        <LandingPageHeader web3={this.state.web3} />
-        <div className="container">
-          <h1>Hello, World!</h1>
-          // <p>Your account: {this.state.user}</p>
-          // <p>Test: {this.state.productsHtml}</p>
-          <p>Create product</p>
+        <PageHeader />
+        <div className="section section-basic">
+          <img alt="Dead" className="path" src={Background} />
+          <FeatureCards />
         </div>
       </>
     );

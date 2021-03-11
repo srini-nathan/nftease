@@ -87,7 +87,7 @@ export default class ParticleTest extends Component {
               random: false,
               straight: false,
               out_mode: "out",
-              bounce: false,
+              bounce: true,
               attract: {
                 enable: false,
                 rotateX: 600,
@@ -122,7 +122,7 @@ export default class ParticleTest extends Component {
                 distance: 200,
                 duration: 0.4,
               },
-          },
+          	},
             modes: {
               grab: {
                 distance: 140,
