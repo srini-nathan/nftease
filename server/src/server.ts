@@ -8,6 +8,8 @@ import { seedDatabase } from "./testing/seed";
 // Setup environment variables
 if (process.env.NODE_ENV === "development" || !process.env.NODE_ENV) {
   dotenv.config({ path: path.join(__dirname, "..", ".env.development") });
+} else if (process.env.NODE_ENV === "test") {
+  dotenv.config({ path: path.join(__dirname, "..", ".env.test") });
 }
 
 // Setup up mongoose

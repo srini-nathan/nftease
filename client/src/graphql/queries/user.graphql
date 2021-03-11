@@ -1,5 +1,5 @@
 query User($id: ID, $username: String, $walletAddress: String) {
   user(id: $id, username: $username, walletAddress: $walletAddress) {
-  	...UserSnippet
+    ...UserSnippet
   }
 }

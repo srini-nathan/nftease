@@ -39,6 +39,7 @@ export type Mutation = {
   __typename?: 'Mutation';
   newUser: UserClass;
   login: Scalars['String'];
+  userBio: UserClass;
 };
 
 
@@ -49,6 +50,11 @@ export type MutationNewUserArgs = {
 
 export type MutationLoginArgs = {
   data: LoginData;
+};
+
+
+export type MutationUserBioArgs = {
+  data: UserBioData;
 };
 
 /** New user data */
@@ -62,6 +68,12 @@ export type NewUserData = {
 export type LoginData = {
   walletAddress: Scalars['String'];
   signature: Scalars['String'];
+};
+
+/** Data required to update user bio */
+export type UserBioData = {
+  id: Scalars['String'];
+  bio: Scalars['String'];
 };
 
 export type UserSnippetFragment = (
@@ -88,7 +100,7 @@ export type NewUserMutation = (
   { __typename?: 'Mutation' }
   & { newUser: (
     { __typename?: 'UserClass' }
-    & Pick<UserClass, 'username' | 'walletAddress' | 'bio'>
+    & UserSnippetFragment
   ) }
 );
 
@@ -150,12 +162,10 @@ export type LoginMutationOptions = Apollo.BaseMutationOptions<LoginMutation, Log
 export const NewUserDocument = gql`
     mutation NewUser($data: NewUserData!) {
   newUser(data: $data) {
-    username
-    walletAddress
-    bio
+    ...UserSnippet
   }
 }
-    `;
+    ${UserSnippetFragmentDoc}`;
 export type NewUserMutationFn = Apollo.MutationFunction<NewUserMutation, NewUserMutationVariables>;
 
 /**

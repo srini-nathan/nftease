@@ -25,10 +25,17 @@ const login = async ({
   if (!user) {
     throw new Error("Unable to find a user with that address");
   }
-
-  const msg = `NFTease uses cryptography to verify that you are the owner of this account.\nBy clicking sign, you are verifying your ownership of this account. This won't cost any eth.\n My special one-use code is: ${user.nonce}`;
-
-  return "";
+  return await user.generateJWT(signature);
 };
 
-export default { newUser, login };
+const bio = async ({ id, bio }: { id: string; bio: string }) => {
+  const user = await User.getById(id);
+  if (!user) throw new Error("Unable to find a user with that Id");
+
+  await user.updateBio(bio);
+  await user.save();
+
+  return user;
+};
+
+export default { newUser, login, bio };

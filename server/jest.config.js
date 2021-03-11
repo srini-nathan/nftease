@@ -8,4 +8,5 @@ module.exports = {
     prefix: "<rootDir>/src/",
   }),
   testTimeout: 15000,
+  globalSetup: "<rootDir>/src/testing/globalSetup.ts",
 };

@@ -8,6 +8,7 @@ import UserSchema from "../schema";
 import build from "./build";
 import get from "./get";
 import interact from "./interact";
+import update from "./update";
 import verify from "./verify";
 
 @ObjectType()
@@ -54,5 +55,15 @@ export default class UserClass extends UserSchema {
 
   public async generateJWT(this: UserDocument, signature: string) {
     return interact.generateJWT(this, signature);
+  }
+
+  // UPDATE //
+
+  public async updateNonce(this: UserDocument) {
+    return update.nonce(this);
+  }
+
+  public async updateBio(this: UserDocument, bio: string) {
+    return update.bio(this, bio);
   }
 }

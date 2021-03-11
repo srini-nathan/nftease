@@ -1,10 +1,11 @@
 import express from "express";
-import * as bodyParser from "body-parser";
 import cors from "cors";
 import { ApolloServer } from "apollo-server-express";
 import { buildSchema } from "type-graphql";
 
 import UserResolver from "@models/User/resolver";
+import { authChecker } from "@utils/graphql/authChecker";
+import { IContext } from "@typescript/graphql";
 
 const createApp = async () => {
   const app = express();
@@ -15,8 +16,9 @@ const createApp = async () => {
     schema: await buildSchema({
       resolvers: [UserResolver],
       validate: false,
+      authChecker,
     }),
-    context: ({ req, res }: { req: any; res: any }) => ({
+    context: ({ req, res }: IContext) => ({
       req,
       res,
     }),
