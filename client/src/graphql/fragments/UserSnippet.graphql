@@ -3,4 +3,5 @@ fragment UserSnippet on UserClass {
   username
   walletAddress
   bio
+  nonce
 }
