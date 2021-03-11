@@ -26,7 +26,7 @@ const login = async ({
     throw new Error("Unable to find a user with that address");
   }
 
-  const msg = `typ gay ${user.nonce}`;
+  const msg = `NFTease uses cryptography to verify that you are the owner of this account.\nBy clicking sign, you are verifying your ownership of this account. This won't cost any eth.\n My special one-use code is: ${user.nonce}`;
 
   return "";
 };

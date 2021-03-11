@@ -4,20 +4,20 @@ import Particle from '../../assets/animation/particles'
 import "../../assets/css/paper-kit.css";
 import { useUserLazyQuery } from '../../generated/graphql'
 import { useNewUserMutation } from '../../generated/graphql'
-// import { useLazyQuery } from "@apollo/client";
+
 import { useQuery, gql, useMutation } from '@apollo/client';
 
 import Web3 from "web3";
 import { Card, CardHeader, CardBody, CardTitle, CardText, Nav, NavItem, NavLink, Button, Container } from 'reactstrap';
+import { UserClass } from '../../generated/graphql';
 
 
-// import { Auth } from '../types';
 let web3: Web3 | undefined = undefined; // Will hold the web3 instance
 
 
 export function Login() {
 	const [state, setState] = useState({buttonClicked: false, walletAddress: "", waitLoad: "Please wait.."})
-	const [user, setUser] = useState(null)
+	const [userState, setUser] = useState<UserClass | null>(null)
 
   	const [createUser, newUserResponse] = useNewUserMutation();
 
@@ -34,23 +34,28 @@ export function Login() {
 
 	useEffect(() => {
 		if(data?.user){
-
-			console.log("Login")
-			handleSignMessage();
-			// createUser({ variables: { data: {walletAddress: state.walletAddress, username: Math.random().toString() }}})
+			setUser(data.user)
+			handleSignMessage(data.user.nonce);
 		}
 	}, [ data ])	
 
-	if(data?.user?.walletAddress){
-		console.log("Have user")
-		console.log(data)
-	} else {
-		console.log("No user")
-	}
+	// useEffect(() =>{
+	// 	// setUser(data.user)
+	// 	if(userState != null){
+	// 		handleSignMessage();
+	// 	}
+	// }, [ userState])
 
-  	if(error){
-  		console.log(error)
-  	}
+	// if(data?.user?.walletAddress){
+	// 	console.log("Have user")
+	// 	console.log(data)
+	// } else {
+	// 	console.log("No user")
+	// }
+
+  	// if(error){
+  	// 	console.log(error)
+  	// }
 
     const handleClick = async () => {
 
@@ -116,13 +121,14 @@ export function Login() {
 
 
 
-   async function handleSignMessage(){
+   async function handleSignMessage(nonce: String){
+	   console.log("HELO", nonce)
 		try {
           // fetch(`${process.env.REACT_APP_BACKEND_URL}/auth`, {
       // body: JSON.stringify({ publicAddress, signature }),
 
 			const signature = await web3!.eth.personal.sign(
-				`NFTease uses cryptography to verify that you are the owner of this account.\lBy clicking sign, you are verifying your ownership of this account. It will not cost you any Eth, so dont worry!\n My special one-use code is:`,
+				`NFTease uses cryptography to verify that you are the owner of this account.\nBy clicking sign, you are verifying your ownership of this account. This won't cost any eth.\n My special one-use code is: ${nonce}`,
 				state.walletAddress,
 				'' // MetaMask will ignore the password argument here
 			);

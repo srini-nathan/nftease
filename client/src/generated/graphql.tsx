@@ -66,7 +66,7 @@ export type LoginData = {
 
 export type UserSnippetFragment = (
   { __typename?: 'UserClass' }
-  & Pick<UserClass, '_id' | 'username' | 'walletAddress' | 'bio'>
+  & Pick<UserClass, '_id' | 'username' | 'walletAddress' | 'bio' | 'roles' | 'nonce'>
 );
 
 export type LoginMutationVariables = Exact<{
@@ -113,6 +113,8 @@ export const UserSnippetFragmentDoc = gql`
   username
   walletAddress
   bio
+  roles
+  nonce
 }
     `;
 export const LoginDocument = gql`
