@@ -5,7 +5,9 @@ import {
 } from "@typegoose/typegoose";
 import User from "./class";
 
-export default getModelForClass(User, { options: { customName: "users" } });
+export default getModelForClass(User, {
+  schemaOptions: { collection: "users" },
+});
 
 export interface UserDocument extends DocumentType<User> {}
 
