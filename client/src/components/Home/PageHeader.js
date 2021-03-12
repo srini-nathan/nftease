@@ -16,13 +16,14 @@
 
 */
 import React from "react";
+import { Link } from "react-router-dom";
 
 // reactstrap components
 import { Container, Button } from "reactstrap";
 
 export default function PageHeader() {
   return (
-    <div className="page-header-2">
+    <div className="page-header-3">
       <div className="squares square1" />
       <div className="squares square2" />
       <div className="squares square3" />
@@ -30,12 +31,17 @@ export default function PageHeader() {
       <div className="squares square5" />
       <div className="squares square6" />
       <div className="squares square7" />
+      <div className="squares square8" />
+      <div className="squares square9" />
+
       <Container>
         <div className="content-center brand">
           <h1 className="h1-seo">NFTEASE• </h1>
           <h3 className="d-none d-sm-block">
             <span>✨</span>
-            <Button>CREATE YOUR FREE ACCOUNT TO GET STARTED</Button>
+            <Link to="/login">
+              <Button>CREATE YOUR FREE ACCOUNT TO GET STARTED</Button>
+            </Link>
           </h3>
         </div>
       </Container>

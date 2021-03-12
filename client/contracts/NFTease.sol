@@ -27,7 +27,7 @@ contract NFTeaseToken is ERC721 {
 
 /// @notice The main NFTease contract to buy and sell ERC-721 tokens representing our users uploaded content
 /// @author tyler p <typalacsko@Outlook.com>.
-contract Ecommerce {
+contract NFTease {
     struct Product {
         uint256 id;
         string title;

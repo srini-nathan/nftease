@@ -44,6 +44,13 @@
     transform: translateX(-10px);
   }
 }
+
+.maskIllustration {
+  height: 9%;
+  width: 9%;
+  align-content: center;
+}
+
 .squares {
   animation: move-left-right 1s infinite;
   background: #ba54f5;
@@ -85,7 +92,7 @@
   height: 100px;
   width: 100px;
   opacity: 0.9;
-  right: 27%;
+  right: 55%;
   top: 70%;
 }
 .squares.square5 {
@@ -112,7 +119,21 @@
   bottom: 0%;
   opacity: 0.1;
 }
-
+.squares.square8 {
+  animation: move-left-right 4s infinite;
+  height: 100px;
+  width: 100px;
+  opacity: 0.9;
+  right: 33%;
+}
+.squares.square9 {
+  animation: move-left-right 6s infinite;
+  height: 90px;
+  width: 90px;
+  opacity: 0.4;
+  right: 47%;
+  top: 5%;
+}
 .path {
   max-width: 65%;
   right: 0;
@@ -6302,6 +6323,41 @@ License - nucleoapp.com/license/
 .landing-alert {
   margin-bottom: 0;
 }
+.page-header-3 {
+  background-position: center center;
+  background-size: cover;
+  min-height: 85vh;
+  max-height: 999px;
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.page-header-3 .filter::after {
+  background-color: rgba(0, 0, 0, 0.5);
+  content: "";
+  display: block;
+  height: 100%;
+  left: 0;
+  top: 0;
+  position: absolute;
+  width: 100%;
+  z-index: 1;
+}
+.page-header-3.page-header-small {
+  min-height: 65vh !important;
+  max-height: 700px;
+}
+.page-header-3.page-header-xs {
+  min-height: 40vh !important;
+}
+.page-header-3.section-dark .content-center,
+.page-header-3.section-dark .category-absolute {
+  z-index: 1;
+}
 
 .page-header-2 {
   background-position: center center;
@@ -6764,6 +6820,7 @@ License - nucleoapp.com/license/
   position: absolute;
   left: 0;
   top: 0;
+  background-color: rgba(186, 84, 245, 0.05);
   width: 100%;
   height: 100%;
   z-index: -1;
@@ -6778,6 +6835,18 @@ License - nucleoapp.com/license/
     transform: translate(-50%, -75%);
   }
   .page-header .presentation-title {
+    background: none !important;
+  }
+}
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+  /* IE10+ CSS styles go here */
+  .page-header-3 .content-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -75%);
+  }
+  .page-header-3 .presentation-title {
     background: none !important;
   }
 }

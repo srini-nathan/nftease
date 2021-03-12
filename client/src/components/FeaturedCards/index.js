@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import ReactDOM from "react-dom";
+import { Link } from "react-router-dom";
 import Web3 from "web3";
 import "../../assets/css/bootstrap.min.css";
 import "../../assets/css/paper-kit.css";
@@ -62,6 +62,9 @@ export default class FeatureCards extends Component {
     console.log(products);
   }
 
+  redirect = () => {
+    History.push("/login");
+  };
   async testProduct() {
     console.log(this.products);
     let productsHtml = [];
@@ -105,7 +108,11 @@ export default class FeatureCards extends Component {
                       <h2>🔒</h2>
                       <CardText>You must login to view this content</CardText>
                     </span>
-                    <Button>LOGIN</Button>
+                    <Link to="/login">
+                      <Button>Login</Button>
+                    </Link>
+
+                    {/* <Button onClick={this.redirect}>Login</Button> */}
                     {/* <CardText>
                       <small className="text-muted">On market for 3 mins</small>
                       <br></br>

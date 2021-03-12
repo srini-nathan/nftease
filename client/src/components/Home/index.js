@@ -173,7 +173,7 @@ export default class Home extends Component {
       <>
         <PageHeader />
         <div className="section section-basic">
-          <img alt="Dead" className="path" src={Background} />
+          <img className="path" src={Background} />
           <FeatureCards />
         </div>
       </>

@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import Background from "../../assets/img/login-image.jpg";
 import Particle from "../../assets/animation/particles";
 import "../../assets/css/paper-kit.css";
+import MaskSVG from "../../assets/img/metamask.svg";
+
 import {
   useUserLazyQuery,
   useLoginMutation,
@@ -151,7 +153,9 @@ export function Login() {
 
         <Container>
           <div className="motto text-center">
-            <h2> Sign in using your wallet </h2>
+            <h2>
+              <strong>Sign in using your wallet </strong>
+            </h2>
             <br></br>
             <Card className="text-center">
               <div className="nav-tabs-navigation">
@@ -168,6 +172,9 @@ export function Login() {
                     <NavItem />
                   </Nav>
                 </div>
+              </div>
+              <div>
+                <img src={MaskSVG} className="maskIllustration text-center" />
               </div>
               <CardBody>
                 <Button
