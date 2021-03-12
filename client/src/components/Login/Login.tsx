@@ -188,7 +188,6 @@ export function Login() {
 
   return (
     <>
-      <h1>{state.waitLoad}</h1>
       <div className="page-header-2" data-parallax={true}>
         <Particle />
 

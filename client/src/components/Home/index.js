@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import ReactDOM from "react-dom";
 import Web3 from "web3";
 import { BrowserRouter, Route, withRouter } from "react-router-dom";
-import ABI from "../../build/contracts/Ecommerce.json";
+import ABI from "../../build/contracts/NFTease.json";
 // import CreateProduct from './components/Sell'
 import LandingPageHeader from "./LandingPageHeader.js";
 import "../../assets/css/bootstrap.min.css";
