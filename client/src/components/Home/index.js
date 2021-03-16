@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import ReactDOM from "react-dom";
 import Web3 from "web3";
 import { BrowserRouter, Route, withRouter } from "react-router-dom";
-import ABI from "../../build/contracts/Ecommerce.json";
+import ABI from "../../build/contracts/NFTease.json";
 // import CreateProduct from './components/Sell'
 import PageHeader from "./PageHeader";
 import FeatureCards from "../FeaturedCards";
@@ -41,7 +41,6 @@ export default class Home extends Component {
       test: "",
     };
   }
-
   async componentWillMount() {
     // await this.setup();
     await this.loadBlockchain();
@@ -81,8 +80,9 @@ export default class Home extends Component {
     });
 
     // Fetch NFTs listed for sale
-    await this.getLatestNFT(15); // pass number of NFT's to display.
-    await this.displayForSale();
+
+    // await this.getLatestNFT(15); // pass number of NFT's to display.
+    // await this.displayForSale();
   }
 
   // fetch currently listed NFTs
@@ -132,12 +132,23 @@ export default class Home extends Component {
 
   async getLatestNFT(amount) {
     // guard to ensure contract is deployed
+
+    if (!this.state.contractInstance == null) {
+      return;
+    }
     const nftCount = parseInt(
       await this.state.contractInstance.methods.getProductsLength().call()
     );
-    if (nftCount == 0 || nftCount == null || nftCount == undefined) {
+
+    if (
+      nftCount == 0 ||
+      nftCount == null ||
+      nftCount == undefined ||
+      !nftCount
+    ) {
       return;
     }
+
     let products = [];
     let condition = amount > nftCount ? 0 : nftCount - amount;
     // Loop through all of them one by one

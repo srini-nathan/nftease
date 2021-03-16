@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 
 import Router from "./components/Router";
 import Providers from "./components/Providers/Index";
 
 const App = () => {
   return (
-  	<Providers>
+    <Providers>
       <Router />
     </Providers>
   );

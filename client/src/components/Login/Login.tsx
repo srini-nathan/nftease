@@ -3,14 +3,14 @@ import Background from "../../assets/img/login-image.jpg";
 import Particle from "../../assets/animation/particles";
 import "../../assets/css/paper-kit.css";
 import MaskSVG from "../../assets/img/metamask.svg";
+import { useHistory } from "react-router-dom";
+import Cookies from "js-cookie";
 
 import {
   useUserLazyQuery,
   useLoginMutation,
   useNewUserMutation,
 } from "../../generated/graphql";
-
-import { useQuery, gql, useMutation } from "@apollo/client";
 
 import Web3 from "web3";
 import {
@@ -34,7 +34,20 @@ export function Login() {
     buttonClicked: false,
     walletAddress: "",
     waitLoad: "Please wait..",
+    isAuthenticated: false,
   });
+
+  // useEffect(() => {
+  //   if (
+  //     document.cookie.split(";").some(function (item) {
+  //       return item.trim().indexOf("token=") == 0;
+  //     })
+  //   ) {
+  //     setState({ ...state, isAuthenticated: true });
+  //   }
+  // }, [state]);
+
+  const history = useHistory();
 
   const [userState, setUser] = useState<UserClass | null>(null);
 
@@ -46,7 +59,6 @@ export function Login() {
 
   useEffect(() => {
     if (data && data.user == null && state.walletAddress) {
-      console.log("create");
       createUser({
         variables: {
           data: {
@@ -55,36 +67,45 @@ export function Login() {
           },
         },
       });
-      // authenticate
     }
   }, [data, state]);
 
+  // Set user (once button click)
+  // Call handleSignMessage
   useEffect(() => {
-    console.log("data exists already", data);
+    if (Cookies.get("token")) {
+      setState({ ...state, isAuthenticated: true });
+    }
     if (data?.user) {
       setUser(data.user);
       handleSignMessage(data.user.nonce);
     }
   }, [data]);
 
+  // Check if user existing or not
+  //
   useEffect(() => {
-    console.log("dev stink", newUserResponse);
     if (newUserResponse.data?.newUser) {
       setUser(newUserResponse.data.newUser);
       handleSignMessage(newUserResponse.data.newUser.nonce);
     }
   }, [newUserResponse.data]);
 
+  // Call once response is returned from Graphql
+  // handles authentication
   useEffect(() => {
     if (loginResponse.data?.login) {
-      console.log("great success", loginResponse);
-      //   setUser(newUserResponse.data.newUser);
-      //   handleSignMessage(newUserResponse.data.newUser.nonce);
+      // set cookie to expire in 1 hr (session)
+      var now = new Date();
+      now.setTime(now.getTime() + 1 * 3600 * 1000);
+
+      document.cookie =
+        "token=" + loginResponse.data.login + "; expires=" + now.toUTCString();
+      history.push("/");
     }
   }, [loginResponse.data]);
 
   const handleClick = async () => {
-    console.log("HANDLE");
     // setState({walletAddress: "", buttonClicked: true});
     // Check if MetaMask is installed
     if (!(window as any).ethereum) {
@@ -117,7 +138,6 @@ export function Login() {
   };
 
   async function handleSignMessage(nonce: String) {
-    console.log("HELO", nonce);
     try {
       // fetch(`${process.env.REACT_APP_BACKEND_URL}/auth`, {
       // body: JSON.stringify({ publicAddress, signature }),
@@ -131,27 +151,194 @@ export function Login() {
       handleLogin({
         variables: { data: { signature, walletAddress: state.walletAddress } },
       });
-      // return { state.walletAddress, signature };
     } catch (err) {
-      throw new Error("You need to sign the message to be able to log in.");
+      alert("You need to sign the message to be able to log in.");
     }
   }
-  function handleAuthenticate(address: string, signature: string) {
-    fetch(`${process.env.REACT_APP_BACKEND_URL}/auth`, {
-      body: JSON.stringify({ address, signature }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-      method: "POST",
-    }).then((response) => response.json());
-  }
 
+  // handle signout
+  const logout = async () => {
+    Cookies.remove("token");
+    window.location.reload(false);
+  };
   return (
     <>
       <div className="page-header-2" data-parallax={true}>
         <Particle />
-
-        <Container>
+        {state.isAuthenticated ? (
+          <>
+            <Container>
+              <div className="motto text-center">
+                <h2>
+                  <strong>You're already signed in </strong>
+                </h2>
+                <br></br>
+                <Card className="text-center">
+                  <div className="nav-tabs-navigation">
+                    <div className="nav-tabs-wrapper">
+                      <Nav tabs>
+                        <NavItem>
+                          <NavLink href="javascript:history.back()">
+                            BACK
+                          </NavLink>
+                        </NavItem>
+                        <NavItem>
+                          <NavLink href="#" active>
+                            LOGOUT
+                          </NavLink>
+                        </NavItem>
+                        <NavItem />
+                      </Nav>
+                    </div>
+                  </div>
+                  <div>
+                    <img
+                      src={MaskSVG}
+                      className="maskIllustration text-center"
+                    />
+                  </div>
+                  <CardBody>
+                    <Button
+                      color="primary"
+                      size="lg"
+                      onClick={function (event) {
+                        logout();
+                      }}
+                    >
+                      {state.buttonClicked ? "Loading..." : "Logout"}
+                    </Button>
+                    <div className="spacer">
+                      <CardTitle>
+                        Your wallet is used to create NFTs, purchase existing
+                        assets, and is used as your account.
+                      </CardTitle>
+                      <CardText>
+                        <small className="text-muted">
+                          {" "}
+                          We do not have access to your private keys
+                        </small>
+                      </CardText>
+                    </div>
+                  </CardBody>
+                </Card>
+              </div>
+            </Container>
+          </>
+        ) : (
+          <>
+            <Container>
+              <div className="motto text-center">
+                <h2>
+                  <strong>Sign in using your wallet </strong>
+                </h2>
+                <br></br>
+                <Card className="text-center">
+                  <div className="nav-tabs-navigation">
+                    <div className="nav-tabs-wrapper">
+                      <Nav tabs>
+                        <NavItem>
+                          <NavLink href="javascript:history.back()">
+                            BACK
+                          </NavLink>
+                        </NavItem>
+                        <NavItem>
+                          <NavLink href="#" active>
+                            LOGIN
+                          </NavLink>
+                        </NavItem>
+                        <NavItem />
+                      </Nav>
+                    </div>
+                  </div>
+                  <div>
+                    <img
+                      src={MaskSVG}
+                      className="maskIllustration text-center"
+                    />
+                  </div>
+                  <CardBody>
+                    <Button
+                      color="primary"
+                      size="lg"
+                      onClick={function (event) {
+                        handleClick();
+                      }}
+                    >
+                      {state.buttonClicked
+                        ? "Loading..."
+                        : "Login with MetaMask"}
+                    </Button>
+                    <div className="spacer">
+                      <CardTitle>
+                        Your wallet is used to create NFTs, purchase existing
+                        assets, and is used as your account.
+                      </CardTitle>
+                      <CardText>
+                        <small className="text-muted">
+                          {" "}
+                          We do not have access to your private keys
+                        </small>
+                      </CardText>
+                    </div>
+                  </CardBody>
+                </Card>
+              </div>
+            </Container>
+          </>
+          // <>
+          //   <Container>
+          //     <div className="motto text-center">
+          //       <h2>
+          //         <strong>You're already signed in </strong>
+          //       </h2>
+          //       <br></br>
+          //       <Card className="text-center">
+          //         <div className="nav-tabs-navigation">
+          //           <div className="nav-tabs-wrapper">
+          //             <Nav tabs>
+          //               <NavItem>
+          //                 <NavLink href="javascript:history.back()">
+          //                   BACK
+          //                 </NavLink>
+          //               </NavItem>
+          //               <NavItem>
+          //                 <NavLink href="#" active>
+          //                   LOGIN
+          //                 </NavLink>
+          //               </NavItem>
+          //               <NavItem />
+          //             </Nav>
+          //           </div>
+          //         </div>
+          //         <div>
+          //           <img
+          //             src={MaskSVG}
+          //             className="maskIllustration text-center"
+          //           />
+          //         </div>
+          //         <CardBody>
+          //           <Button color="primary" size="lg">
+          //             {state.buttonClicked ? "Loading..." : "Logout"}
+          //           </Button>
+          //           <div className="spacer">
+          //             <CardTitle>
+          //               Your wallet is used to create NFTs, purchase existing
+          //               assets, and is used as your account.
+          //             </CardTitle>
+          //             <CardText>
+          //               <small className="text-muted">
+          //                 {" "}
+          //                 We do not have access to your private keys
+          //               </small>
+          //             </CardText>
+          //           </div>
+          //         </CardBody>
+          //       </Card>
+          //     </div>
+          //   </Container>
+          // </>
+        )}
+        {/* <Container>
           <div className="motto text-center">
             <h2>
               <strong>Sign in using your wallet </strong>
@@ -201,7 +388,7 @@ export function Login() {
               </CardBody>
             </Card>
           </div>
-        </Container>
+        </Container> */}
       </div>
     </>
   );

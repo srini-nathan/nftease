@@ -33,7 +33,7 @@ export default class ParticleTest extends Component {
               },
             },
             color: {
-              value: ["#2EB67D", "#ECB22E", "#E01E5B", "#36C5F0"],
+              value: ["#ba54f5", "#e14eca", "#AD4ED2", "#E14F8D"],
             },
             shape: {
               type: ["circle"],

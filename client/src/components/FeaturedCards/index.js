@@ -5,6 +5,7 @@ import "../../assets/css/bootstrap.min.css";
 import "../../assets/css/paper-kit.css";
 import Background from "../../assets/img/path1.png";
 import BlurredContent from "../../assets/img/blurred-image-1.jpg";
+import Cookies from "js-cookie";
 
 import {
   Button,
@@ -29,19 +30,24 @@ import {
 export default class FeatureCards extends Component {
   constructor(props) {
     super(props);
-    console.log(Background);
 
     this.state = {
       products: [],
       product: {},
-      isLoggedIn: false,
+      isAuthenticated: null,
     };
   }
   async componentWillMount() {
+    if (Cookies.get("token")) {
+      this.setState({ isAuthenticated: true });
+    } else {
+      this.setState({ isAuthenticated: false });
+    }
     await this.setupTestProduct();
     await this.testProduct();
     // TODO : Check login
   }
+
   async setupTestProduct() {
     let products = [];
     let product = this.state.product;
@@ -66,16 +72,15 @@ export default class FeatureCards extends Component {
     History.push("/login");
   };
   async testProduct() {
-    console.log(this.products);
     let productsHtml = [];
     if (this.state.products.length == 0) {
       console.log("THE TOTAL LENGTH IS 0");
     } else {
       await this.state.products.reduce(async (promise, product) => {
         await promise;
-        productsHtml.push(
-          <Card key={product.id} className="feature-card">
-            {this.state.isLoggedIn ? (
+        if (this.state.isAuthenticated) {
+          productsHtml.push(
+            <Card key={product.id} className="feature-card">
               <>
                 <CardImg top src={product.image} />
                 <CardBody>
@@ -94,9 +99,12 @@ export default class FeatureCards extends Component {
                   </CardText>
                 </CardBody>
               </>
-            ) : (
-              // VV IF NOT LOGGED IN VV
-              <>
+            </Card>
+          );
+        } else {
+          productsHtml.push(
+            <>
+              <Card key={product.id} className="feature-card">
                 <CardImg
                   top
                   src={BlurredContent}
@@ -111,21 +119,12 @@ export default class FeatureCards extends Component {
                     <Link to="/login">
                       <Button>Login</Button>
                     </Link>
-
-                    {/* <Button onClick={this.redirect}>Login</Button> */}
-                    {/* <CardText>
-                      <small className="text-muted">On market for 3 mins</small>
-                      <br></br>
-                      <small className="text-muted">
-                        <strong>1/1</strong> Available
-                      </small>
-                    </CardText> */}
                   </CardBody>
                 </CardImgOverlay>
-              </>
-            )}
-          </Card>
-        );
+              </Card>
+            </>
+          );
+        }
       });
     }
     this.setState({ productsHtml });
