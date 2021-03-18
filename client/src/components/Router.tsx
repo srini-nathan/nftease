@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 import Home from "./Home";
 import Login from "./Login/Login";
 import Profile from "./Profile";
+import Marketplace from "./Marketplace";
 import SelectCreate from "./Create";
 import CreateContent from "./Create/CreateContent";
 import SecretArea from "./Profile/SecretArea";
@@ -25,9 +26,36 @@ const Router = () => {
               </Auth>
             )}
           ></Route>
-          <Route exact path="/create" component={SelectCreate} />
-          <Route exact path="/create/newErc721" component={CreateContent} />
           <Route
+            exact
+            path="/marketplace"
+            render={(props) => (
+              <Auth>
+                <Marketplace />
+              </Auth>
+            )}
+          ></Route>
+          <Route
+            exact
+            path="/create"
+            render={(props) => (
+              <Auth>
+                <SelectCreate />
+              </Auth>
+            )}
+          ></Route>
+          <Route
+            exact
+            path="/create/newErc721"
+            render={(props) => (
+              <Auth>
+                <CreateContent />
+              </Auth>
+            )}
+          ></Route>
+          {/* <Route exact path="/create/newErc721" component={CreateContent} /> */}
+          <Route
+            exact
             path="/secret-area"
             render={(props) => (
               <Auth>

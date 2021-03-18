@@ -21,6 +21,8 @@ const ImageList = ({ images }) => {
 
   // Return the list of files
   return <section className="file-list">{images.map(renderImage)}</section>;
+
+  // send image to prop to be used in summary
 };
 
 export default ImageList;

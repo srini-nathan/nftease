@@ -24,7 +24,7 @@ import {
   CardImgOverlay,
 } from "reactstrap";
 
-const FileUpload = ({ accept }) => {
+const FileUpload = (props) => {
   const [state, setState] = useState({
     hasPhoto: false,
     fileName: "Drag a file or choose one to upload",
@@ -47,13 +47,21 @@ const FileUpload = ({ accept }) => {
           { id: cuid(), src: e.target.result },
         ]);
       };
+
       // Read the file as Data URL (since we accept only images)
       reader.readAsDataURL(file);
       setState({ fileName: "Will upload after confirmation", hasPhoto: true });
 
+      const fileData = {
+        image: file,
+      };
+
+      props.imgData(fileData);
+
       return file;
     });
   }, []);
+
   const {
     getRootProps,
     getInputProps,
@@ -61,7 +69,7 @@ const FileUpload = ({ accept }) => {
     fileRejections,
   } = useDropzone({
     onDrop,
-    accept,
+    accept: props.accept,
     multiple: false,
   });
 
