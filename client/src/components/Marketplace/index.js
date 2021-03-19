@@ -64,6 +64,21 @@ export default class Marketplace extends Component {
   }
 
   async setupTestProduct() {
+    const images = [
+      "https://vitality101.com/sites/all/images/newsletter/cute-animals-2014-06/1.jpg",
+      "https://i.pinimg.com/originals/f3/bd/84/f3bd8497e15399201b634714ec5ed390.jpg",
+      "https://static.boredpanda.com/blog/wp-content/uuuploads/cute-baby-animals/cute-baby-animals-2.jpg",
+      "https://s2.best-wallpaper.net/wallpaper/iphone/1112/Sloth-nice-smile_iphone_320x480.jpg",
+      "https://i.pinimg.com/originals/93/7c/12/937c12fe1c27be948e928a8f479bbea5.jpg",
+      "https://images.fineartamerica.com/images/artworkimages/mediumlarge/1/too-cute-for-words-melody-watson.jpg",
+      "https://i.pinimg.com/originals/d8/5d/82/d85d824bf7b2d632c172afff67da28f5.jpg",
+      "https://i.ytimg.com/vi/fZEHhLloF0w/hqdefault.jpg",
+      "https://cdn.wallpapersafari.com/13/86/hKJICR.jpg",
+    ];
+    // Math.random() * (6 - 0) + 0;
+    const min = Math.ceil(0);
+    const max = Math.floor(9);
+
     let allProducts = [];
     let product = this.state.product;
     for (let i = 0; i < 1012; i++) {
@@ -72,8 +87,7 @@ export default class Marketplace extends Component {
         title: "Testing Product",
         date: "MAR-11-2020",
         description: "Testing a very ebic description",
-        image:
-          "https://i.pinimg.com/originals/f3/bd/84/f3bd8497e15399201b634714ec5ed390.jpg",
+        image: images[Math.floor(Math.random() * (max - min) + min)],
         owner: "me",
         price: "$22",
       };
