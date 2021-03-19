@@ -6,25 +6,22 @@ import "../../assets/css/paper-kit.css";
 import Background from "../../assets/img/path1.png";
 import BlurredContent from "../../assets/img/blurred-image-1.jpg";
 import Cookies from "js-cookie";
+import MarketPlacePagination from "./MarketPlacePagination";
+import TestProduct from "./TestProduct";
+import MarketPagination from "./PaginationTest";
 
 import {
   Button,
   Card,
   CardBody,
-  CardFooter,
   CardTitle,
-  Form,
   CardImg,
   CardText,
   CardSubtitle,
-  Input,
-  InputGroupAddon,
-  InputGroupText,
-  InputGroup,
   Container,
-  Row,
-  Col,
-  CardImgOverlay,
+  Pagination,
+  PaginationItem,
+  PaginationLink,
 } from "reactstrap";
 
 export default class Marketplace extends Component {
@@ -35,8 +32,26 @@ export default class Marketplace extends Component {
       products: [],
       product: {},
       isAuthenticated: null,
+      allProducts: [],
+      currentProducts: [],
+      currentPage: null,
+      totalPages: null,
+      selected: 0,
     };
   }
+
+  // axios
+  //   .get(`/api/countries?page=${currentPage}&limit=${pageLimit}`)
+  //   .then((response) => {
+  //     const currentCountries = response.data.countries;
+  //     this.setState({ currentPage, currentCountries, totalPages });
+  //   });
+
+  onPageChanged = ({ selected: selectedPage }) => {
+    var selected = selectedPage;
+    this.setState({ selected: selected });
+  };
+
   async componentWillMount() {
     if (Cookies.get("token")) {
       this.setState({ isAuthenticated: true });
@@ -49,9 +64,9 @@ export default class Marketplace extends Component {
   }
 
   async setupTestProduct() {
-    let products = [];
+    let allProducts = [];
     let product = this.state.product;
-    for (let i = 0; i < 15; i++) {
+    for (let i = 0; i < 1012; i++) {
       product = {
         id: i,
         title: "Testing Product",
@@ -62,10 +77,9 @@ export default class Marketplace extends Component {
         owner: "me",
         price: "$22",
       };
-      products.push(product);
+      allProducts.push(product);
     }
-    this.setState({ products });
-    console.log(products);
+    this.setState({ allProducts });
   }
 
   redirect = () => {
@@ -107,11 +121,46 @@ export default class Marketplace extends Component {
   }
 
   render() {
+    const { allProducts, currentProducts, selected } = this.state;
+    const totalProducts = allProducts.length;
+    if (totalProducts === 0) return null;
+
+    const productsPerPage = 16;
+    const totalPages = Math.ceil(totalProducts / productsPerPage);
+
+    const offset = selected * productsPerPage;
+    const currentPageData = allProducts.slice(offset, offset + productsPerPage);
+    console.log(currentPageData);
+    // this.setState({ currentPageData: currentPageData });
+    // used to initialize
+
     return (
       <>
         <Container>
+          <h2>
+            <strong className="text-secondary">{totalProducts}</strong> Items
+            for sale
+          </h2>
+          {selected && (
+            <span className="current-page d-inline-block h-100 pl-4 text-secondary">
+              Page <span className="font-weight-bold">{selected + 1}</span> /{" "}
+              <span className="font-weight-bold">{totalPages}</span>
+            </span>
+          )}
+          <MarketPagination
+            totalPosts={totalProducts}
+            totalPages={totalPages}
+            onPageChanged={this.onPageChanged}
+          />
+          {/* <MarketPlacePagination
+            totalRecords={this.state.productsHtml}
+            pageLimit={18}
+            pageNeighbours={1}
+            onPageChanged={this.onPageChanged}
+          /> */}
           <h1> 🔥 What's hot</h1>
-          <Row>{this.state.productsHtml}</Row>
+          <TestProduct products={currentPageData} />;
+          {/* <Row>{this.state.productsHtml}</Row> */}
         </Container>
       </>
     );
