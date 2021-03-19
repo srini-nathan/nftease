@@ -22,7 +22,12 @@ export default class MediaResolver {
 
   @FieldResolver(() => FileClass)
   async token(@Root() media: MediaDocument) {
-    return File.findById(media.token.fileId);
+    return File.getById(media.token.fileId!.toString());
+  }
+
+  @FieldResolver(() => FileClass)
+  async preview(@Root() media: MediaDocument) {
+    return File.getById(media.preview.fileId!.toString());
   }
 
   /**

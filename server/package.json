@@ -32,6 +32,7 @@
     "graphql": "15.5.0",
     "graphql-upload": "11.0.0",
     "hardhat": "2.1.0",
+    "ipfs-core": "0.5.4",
     "jsonwebtoken": "8.5.1",
     "jwt-decode": "3.1.2",
     "mongoose": "5.10.18",
