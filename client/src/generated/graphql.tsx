@@ -11,6 +11,8 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
+  /** The `Upload` scalar type represents a file upload. */
+  Upload: any;
 };
 
 export type Query = {
@@ -40,6 +42,7 @@ export type Mutation = {
   newUser: UserClass;
   login: Scalars['String'];
   userBio: UserClass;
+  newMedia: Scalars['Boolean'];
 };
 
 
@@ -55,6 +58,11 @@ export type MutationLoginArgs = {
 
 export type MutationUserBioArgs = {
   data: UserBioData;
+};
+
+
+export type MutationNewMediaArgs = {
+  data: Scalars['Upload'];
 };
 
 /** New user data */
@@ -76,6 +84,7 @@ export type UserBioData = {
   bio: Scalars['String'];
 };
 
+
 export type UserSnippetFragment = (
   { __typename?: 'UserClass' }
   & Pick<UserClass, '_id' | 'username' | 'walletAddress' | 'bio' | 'roles' | 'nonce'>
@@ -89,6 +98,16 @@ export type LoginMutationVariables = Exact<{
 export type LoginMutation = (
   { __typename?: 'Mutation' }
   & Pick<Mutation, 'login'>
+);
+
+export type NewMediaMutationVariables = Exact<{
+  file: Scalars['Upload'];
+}>;
+
+
+export type NewMediaMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'newMedia'>
 );
 
 export type NewUserMutationVariables = Exact<{
@@ -159,6 +178,36 @@ export function useLoginMutation(baseOptions?: Apollo.MutationHookOptions<LoginM
 export type LoginMutationHookResult = ReturnType<typeof useLoginMutation>;
 export type LoginMutationResult = Apollo.MutationResult<LoginMutation>;
 export type LoginMutationOptions = Apollo.BaseMutationOptions<LoginMutation, LoginMutationVariables>;
+export const NewMediaDocument = gql`
+    mutation NewMedia($file: Upload!) {
+  newMedia(data: $file)
+}
+    `;
+export type NewMediaMutationFn = Apollo.MutationFunction<NewMediaMutation, NewMediaMutationVariables>;
+
+/**
+ * __useNewMediaMutation__
+ *
+ * To run a mutation, you first call `useNewMediaMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useNewMediaMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [newMediaMutation, { data, loading, error }] = useNewMediaMutation({
+ *   variables: {
+ *      file: // value for 'file'
+ *   },
+ * });
+ */
+export function useNewMediaMutation(baseOptions?: Apollo.MutationHookOptions<NewMediaMutation, NewMediaMutationVariables>) {
+        return Apollo.useMutation<NewMediaMutation, NewMediaMutationVariables>(NewMediaDocument, baseOptions);
+      }
+export type NewMediaMutationHookResult = ReturnType<typeof useNewMediaMutation>;
+export type NewMediaMutationResult = Apollo.MutationResult<NewMediaMutation>;
+export type NewMediaMutationOptions = Apollo.BaseMutationOptions<NewMediaMutation, NewMediaMutationVariables>;
 export const NewUserDocument = gql`
     mutation NewUser($data: NewUserData!) {
   newUser(data: $data) {

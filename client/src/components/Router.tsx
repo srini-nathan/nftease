@@ -5,6 +5,7 @@ import Home from "./Home";
 import Login from "./Login/Login";
 import "../assets/css/bootstrap.min.css";
 import "../assets/css/paper-kit.css";
+import Playground from "./playground";
 
 const Router = () => {
   return (
@@ -13,6 +14,7 @@ const Router = () => {
         <>
           <Route exact path="/" component={Home} />
           <Route exact path="/login" component={Login} />
+          <Route exact path="/playground" component={Playground} />
         </>
       </Switch>
     </BrowserRouter>

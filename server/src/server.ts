@@ -2,6 +2,7 @@ import "reflect-metadata";
 import path from "path";
 import mongoose from "mongoose";
 import * as dotenv from "dotenv";
+import sigUtils from "eth-sig-util";
 
 import { seedDatabase } from "./testing/seed";
 
@@ -14,6 +15,7 @@ if (process.env.NODE_ENV === "development" || !process.env.NODE_ENV) {
 
 // Setup up mongoose
 import createApp from "./app";
+import userPrivateHex from "@testing/seed/userPrivateHex";
 
 const main = async () => {
   await mongoose.connect(process.env.MONGO_URI!, {
@@ -23,7 +25,14 @@ const main = async () => {
   console.log("MongoDB Connected");
   console.log("Database seeding...");
 
-  await seedDatabase();
+  const documents = await seedDatabase();
+
+  const user1PrivateKey = Buffer.from(userPrivateHex.user_1, "hex");
+  const signature = sigUtils.personalSign(user1PrivateKey, {
+    data: documents.users.user_1.nonce,
+  });
+  const token = await documents.users.user_1.generateJWT(signature);
+  console.log("User 1 Authorization Token", token);
 
   let port = process.env.PORT || 8080;
 
