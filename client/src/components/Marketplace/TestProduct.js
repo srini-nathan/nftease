@@ -1,5 +1,6 @@
 import React, { Component, useEffect, useState } from "react";
 import { Hashicon } from '@emeraldpay/hashicon-react';
+import { Link } from "react-router-dom";
 
 
 import {
@@ -50,7 +51,9 @@ const TestProduct = (props) => {
                   Card subtitle
                 </CardSubtitle>
                 <CardText>{product.description}</CardText>
+                <Link to={`/content/${product.id}`}>
                 <Button>{product.price}</Button>
+                </Link>
                 <CardText>
                   <small className="text-muted">Hey</small>
                   <br></br>

@@ -56,8 +56,6 @@ export default class Purchase extends Component {
     } else {
       this.setState({ isAuthenticated: false });
     }
-    await this.setupTestProduct();
-    await this.testProduct();
     // TODO : Check login
   }
 

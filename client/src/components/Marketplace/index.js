@@ -120,9 +120,7 @@ export default class Marketplace extends Component {
                   Card subtitle
                 </CardSubtitle>
                 <CardText>{product.description}</CardText>
-                <Link to='/content/${product.id}'>
                   <Button>{product.price}</Button>
-                  </Link>
                 <CardText>
                   <small className="text-muted">On market for 3 mins</small>
                   <br></br>
