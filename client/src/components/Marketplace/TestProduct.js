@@ -1,5 +1,6 @@
 import React, { Component, useEffect, useState } from "react";
-import { Hashicon } from "hashicon-react";
+import { Hashicon } from '@emeraldpay/hashicon-react';
+
 
 import {
   Button,
@@ -12,6 +13,7 @@ import {
   Container,
   Row,
   CardSubtitle,
+  UncontrolledTooltip,
 } from "reactstrap";
 
 const TestProduct = (props) => {
@@ -29,7 +31,16 @@ const TestProduct = (props) => {
         <Col xs="6" sm="4">
           <Card key={product.id} className="marketplace-card">
             <>
-              <h1>{product.id}</h1>
+
+            <div className="text-left-padding">
+              <span id={"tooltip" + product.id}>
+                <Hashicon value={product.userHash} size={48}/>
+              </span>
+              <UncontrolledTooltip target={"tooltip"+ product.id} placement="right">
+                Creator Link: {product.id}
+              </UncontrolledTooltip>
+            </div>
+
               <Container>
                 <CardImg src={product.image} className="marketplace-card-img" />
               </Container>
@@ -46,6 +57,7 @@ const TestProduct = (props) => {
                   <small className="text-muted">
                     <strong>1/1</strong> Available
                   </small>
+              
                 </CardText>
               </CardBody>
             </>
@@ -54,15 +66,11 @@ const TestProduct = (props) => {
       );
     });
     setState(productsHtml);
-    const value = "9dddff8f-be81-4c27-80c8-099327865f3f";
-    for (let i = 0; i < 15; i++) {
-      value = value + i;
-    }
-    console.log(value);
     return true;
   };
 
   return (
+    
     <>
       <Row>{state}</Row>
     </>

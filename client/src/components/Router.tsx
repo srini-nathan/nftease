@@ -10,6 +10,7 @@ import SecretArea from "./Profile/SecretArea";
 import "../assets/css/bootstrap.min.css";
 import "../assets/css/paper-kit.css";
 import Auth from "./Authentication/Auth";
+import Purchase from "./Purchase"
 
 const Router = () => {
   return (
@@ -53,6 +54,11 @@ const Router = () => {
               </Auth>
             )}
           ></Route>
+           <Route
+            path={["/content/", "/content/:id"]} 
+            component={Purchase}
+            />
+
           {/* <Route exact path="/create/newErc721" component={CreateContent} /> */}
           <Route
             exact

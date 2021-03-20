@@ -2,13 +2,20 @@ import React, { Component } from "react";
 import ReactDOM from "react-dom";
 import Web3 from "web3";
 import { BrowserRouter, Route, withRouter } from "react-router-dom";
-import ABI from "../../build/contracts/NFTease.json";
+// import ABI from "../../build/contracts/NFTease.json";
 // import CreateProduct from './components/Sell'
 import PageHeader from "./PageHeader";
 import FeatureCards from "../FeaturedCards";
 import "../../assets/css/bootstrap.min.css";
 import "../../assets/css/paper-kit.css";
 import Background from "../../assets/img/path1.png";
+
+
+// const ABI = React.lazy(() =>
+//   import('../../build/contracts/NFTease.json')
+//   .catch(() => ({ default: () => <div>Not found</div> }))
+// );
+
 import {
   Button,
   Card,
@@ -40,10 +47,11 @@ export default class Home extends Component {
       user: "",
       test: "",
     };
+
   }
   async componentWillMount() {
     // await this.setup();
-    await this.loadBlockchain();
+    // await this.loadBlockchain();
   }
 
   // async setup() {
@@ -61,29 +69,37 @@ export default class Home extends Component {
   //   }
   // }
 
-  async loadBlockchain() {
-    const web3 = new Web3(Web3.givenProvider || "http://localhost:7545");
-    const loggedinUser = await web3.eth.getAccounts();
-    // window.contract = new web3.eth.Contract(ABI.abi, ABI.networks['3'])
-    this.setState({ user: loggedinUser[0] });
 
-    const networkId = await web3.eth.net.getId();
-    const deployedNetwork = ABI.networks[networkId];
-    const instance = new web3.eth.Contract(
-      ABI.abi,
-      deployedNetwork && deployedNetwork.address
-    );
-    this.setState({
-      networkId: networkId,
-      web3: web3,
-      contractInstance: instance,
-    });
+  // REIMPLEMENT
 
-    // Fetch NFTs listed for sale
+  // async loadBlockchain() {
+  //   if(ABI == null){
+  //     return
+  //   }
+  //   const web3 = new Web3(Web3.givenProvider || "http://localhost:7545");
+  //   const loggedinUser = await web3.eth.getAccounts();
+  //   // window.contract = new web3.eth.Contract(ABI.abi, ABI.networks['3'])
+  //   this.setState({ user: loggedinUser[0] });
 
-    // await this.getLatestNFT(15); // pass number of NFT's to display.
-    // await this.displayForSale();
-  }
+  //   const networkId = await web3.eth.net.getId();
+  //   const deployedNetwork = ABI.networks[networkId];
+  //   const instance = new web3.eth.Contract(
+  //     ABI.abi,
+  //     deployedNetwork && deployedNetwork.address
+  //   );
+  //   this.setState({
+  //     networkId: networkId,
+  //     web3: web3,
+  //     contractInstance: instance,
+  //   });
+
+  //   // Fetch NFTs listed for sale
+
+  //   // await this.getLatestNFT(15); // pass number of NFT's to display.
+  //   // await this.displayForSale();
+  // }
+
+  // END REIMPLEMENT
 
   // fetch currently listed NFTs
   async displayForSale() {
@@ -183,6 +199,11 @@ export default class Home extends Component {
     return (
       <>
         <PageHeader />
+        {/* <ErrorBoundary>
+        <Suspense fallback={'loading...'}>
+          <ABI />
+        </Suspense>
+        </ErrorBoundary> */}
         <div className="section section-basic">
           <img className="path" src={Background} />
           <FeatureCards />

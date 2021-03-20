@@ -38,6 +38,13 @@
   }
 }
 
+.text-left-padding {
+  margin-left: 15%;
+  padding: 5px;
+  position: absolute;
+}
+
+
 .maskIllustration {
   height: 9%;
   width: 9%;
@@ -6858,6 +6865,7 @@ License - nucleoapp.com/license/
   max-height: 270px !important;
   max-width: 270px !important;
   margin-left: 8%;
+  margin-top: 15px;
   box-shadow: 0 6px 10px -4px rgb(0 0 0 / 5%);
   border-radius: 12px 12px 12px 12px !important;
 }
@@ -7321,15 +7329,25 @@ License - nucleoapp.com/license/
     float: top;
   }
 }
-@media (min-width: 1000px) {
+.card-text-desc {
+  overflow-y:auto;
+  height: 80px; 
+}
+.h3Summary {
+  margin-top: -8px;
+}
+
+@media (min-width: 900px) {
   .cardSummary {
+    overflow-y:auto;
     position: fixed;
     padding: 10px;
     margin-left: -50px;
-    margin-top: -20%;
+    margin-top: -40%;
     float: top;
   }
 }
+
 #tsparticles {
   position: fixed;
   left: 0;

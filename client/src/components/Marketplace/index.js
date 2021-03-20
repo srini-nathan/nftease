@@ -9,6 +9,7 @@ import Cookies from "js-cookie";
 import MarketPlacePagination from "./MarketPlacePagination";
 import TestProduct from "./TestProduct";
 import MarketPagination from "./PaginationTest";
+import Purchase from "../Purchase/index";
 
 import {
   Button,
@@ -79,10 +80,13 @@ export default class Marketplace extends Component {
     const min = Math.ceil(0);
     const max = Math.floor(9);
 
+    var value = "9dddff8f-be81-4c27-80c8-099327865f3f";
+
     let allProducts = [];
     let product = this.state.product;
     for (let i = 0; i < 1012; i++) {
       product = {
+        userHash: i + Math.random(),
         id: i,
         title: "Testing Product",
         date: "MAR-11-2020",
@@ -116,7 +120,9 @@ export default class Marketplace extends Component {
                   Card subtitle
                 </CardSubtitle>
                 <CardText>{product.description}</CardText>
-                <Button>{product.price}</Button>
+                <Link to='/content/${product.id}'>
+                  <Button>{product.price}</Button>
+                  </Link>
                 <CardText>
                   <small className="text-muted">On market for 3 mins</small>
                   <br></br>
